@@ -1,0 +1,30 @@
+library(leaflet)
+library( leaflet)
+
+Props<-read.csv( "https://raw.githubusercontent.com/J-Thorsen/Demo-Map/master/total.inventory.csv")
+
+Demos<-Props[Props$Property.Condition=="Demolition Candidate",]
+ syr.map <- 
+  leaflet(Props) %>% 
+  addProviderTiles("CartoDB.Positron", tileOptions(minZoom=10, maxZoom=17))  %>%
+  setView(lng=-76.13, lat=43.03, zoom=13) %>%
+  setMaxBounds(lng1=-75, lat1=41, lng2=-77,  lat2=45)
+  
+  Cuse<- leaflet() %>% 
+  addTiles(group = "OSM (default)") %>% 
+  addProviderTiles("CartoDB.Positron", group="CartoDB") %>%
+  addCircles(lng=major$Longitude, lat=major$Latitude, col="red", popup=major$Address1, group="Major Renovation Needed")%>%
+  addCircles(lng=minor$Longitude, lat=minor$Latitude, col="orange", popup=minor$Address1, group= "Minor Renovation Needed") %>%
+  addCircles(lng=demos$Longitude, lat=demos$Latitude, col="black", popup=demos$Address1, group="Demolition Needed")%>%
+  addCircles(lng=lot.build$Longitude, lat=lot.build$Latitude, col="green", popup=lot.build$Address1, group="Buildable Vacant Lots")%>%
+  addCircles(lng=lot.non$Longitude, lat=lot.non$Latitude, col="green", popup=lot.non$Address1, group="NonBuildable Vacant Lots")%>%
+  addLayersControl(
+    baseGroups = c("OSM (default)", "CartoDB"),
+    overlayGroups = c("Major Renovation Needed", "Minor Renovation Needed", "Demolition Needed", "Buildable Vacant Lots", "NonBuildable Vacant Lots"),
+    options = layersControlOptions(collapsed = FALSE)
+  )
+characters<-c("Demolition Candidate", "Major Renovation Needed", "Minor Renovation Needed", "Buildable Vacant Lot", "NonBuilable Vacant Lots")
+Col<-c("black", "red", "orange", "green", "green")
+
+demo.map<-addLegend(Cuse, position = 'bottomleft', colors = Col , labels = characters , opacity = 0.4,
+                    title = 'Legend')
