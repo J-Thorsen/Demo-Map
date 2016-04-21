@@ -3,7 +3,12 @@ library( leaflet)
 
 Props<-read.csv( "https://raw.githubusercontent.com/J-Thorsen/Demo-Map/master/total.inventory.csv")
 
-Demos<-Props[Props$Property.Condition=="Demolition Candidate",]
+demos<-Props[Props$Property.Condition=="Demolition Candidate",]
+major<-Props[Props$Property.Condition=="Major Renovation Needed", ]
+minor<-Props[Props$Property.Condition=="Minor Renovation Needed", ]
+lot.build<-Props[Props$Property.Class=="Residential Vacant - Buildable", ]
+lot.non<-Props[Props$Property.Class=="Residential Vacant - Nonbuildable", ]
+
  syr.map <- 
   leaflet(Props) %>% 
   addProviderTiles("CartoDB.Positron", tileOptions(minZoom=10, maxZoom=17))  %>%
