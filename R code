@@ -33,3 +33,5 @@ Col<-c("black", "red", "orange", "green", "green")
 
 demo.map<-addLegend(Cuse, position = 'bottomleft', colors = Col , labels = characters , opacity = 0.4,
                     title = 'Legend')
+
+demo.map
